@@ -1,43 +1,44 @@
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
-public class Customer extends CustomerImpl{
-    String username;
-    private String password;
+public class Customer {
+    private static int nextCustomerID = 1;
+    private int customerID;
+    private String customerUsername;
+    private String customerPassword;
     private String customerName;
-    private String phoneNumber;
-    private boolean serviceSelected;
+    private int customerPhoneNumber;
+    private CreditCard customerCreditCard;
 
-
-
-// methods: view services, book appointment
-    // Конструктор класса Customer
-    public Customer( String username, String password, String customerName, String phoneNumber) {
-        this.username = username;
-        this.password = password;
+    public Customer(String customerUsername, String customerPassword, String customerName,
+                    int customerPhoneNumber, CreditCard customerCreditCard) {
+        this.customerID = nextCustomerID++;
+        this.customerUsername = customerUsername;
+        this.customerPassword = customerPassword;
         this.customerName = customerName;
-        this.phoneNumber = phoneNumber;
-        this.serviceSelected = true;
-
-    }
-    public Customer(String username,String password){
-        this(username,password, "", "");
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.customerCreditCard = customerCreditCard;
     }
 
+    // Getters and setters for the properties
 
-    public String getUsername() {
-        return username;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getCustomerUsername() {
+        return customerUsername;
     }
 
-    public String getPassword(){return password;}
+    public void setCustomerUsername(String customerUsername) {
+        this.customerUsername = customerUsername;
+    }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getCustomerPassword() {
+        return customerPassword;
+    }
+
+    public void setCustomerPassword(String customerPassword) {
+        this.customerPassword = customerPassword;
     }
 
     public String getCustomerName() {
@@ -47,66 +48,36 @@ public class Customer extends CustomerImpl{
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
-    public String getPhoneNumber() {
-        return phoneNumber;
+
+    public int getCustomerPhoneNumber() {
+        return customerPhoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setCustomerPhoneNumber(int customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    Customer customer0 = new Customer("mari123","123456","Mari","58963963");
-    Customer customer1 = new Customer("tiina123","112233","Tiina", "58003658");
-
-
-
-
-
-//------------------------------------------------------------------------------------
-/*
-
-    @Override
-    public void print(){
-        System.out.println("Customers: ");
-        customers.forEach(System.out::println);
-    }*/
-
-
-
-    private LocalDateTime parseDateTime(String date, String time){
-        // Implement parsing logic (convert date and time strings to LocalDateTime)
-        // Example: LocalDateTime.parse(date + "T" + time);
-        // You can use DateTimeFormatter for more robust parsing.
-        // For simplicity, assume successful parsing here.
-        return LocalDateTime.now();
-    }
-    public void bookAppointment(String date, String time, Staff staff){
-        LocalDateTime appointmentDateTime = parseDateTime(date, time);
-/*        if (isAppointmentAvailable(appointmentDateTime,new Hairstylist(stylist))){
-            Appointment newAppointment = new Appointment(appointmentDateTime,stylist,this);
-            appointments.add(newAppointment);
-            System.out.println("Appointment booked successfully");
-        }else{
-            System.out.println("Sorry, teh selected slot is not available");
-        }*/
-    }
-    private boolean isAppointmentAvailable(LocalDateTime appointmentDateTime, Staff staff){
-        // Implement availability check:
-        // - Compare with existing appointments
-        // - Ensure it's in the future
-        // - Consider stylist availability (e.g., working hours)
-        // For demonstration, assume all slots are available initially.
-        return true;
+    public CreditCard getCustomerCreditCard() {
+        return customerCreditCard;
     }
 
-    public boolean isServiceSelected() {
-        return serviceSelected;
+    public void setCustomerCreditCard(CreditCard customerCreditCard) {
+        this.customerCreditCard = customerCreditCard;
     }
 
-    public void setServiceSelected(boolean serviceSelected) {
-        this.serviceSelected = serviceSelected;
+    public static void main(String[] args) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Edit username?");
+        String customerUsername = reader.nextLine();
+        System.out.println("Please edit password?");
+        String customerPassword = reader.nextLine();
+        System.out.println("What's your name?");
+        String customerName = reader.nextLine();
+        System.out.println("What's your phone number?");
+        int customerPhoneNumber = Integer.valueOf(reader.nextLine());
+
+
+//        Customer c0 = new Customer(customerUsername, customerPassword, customerName, customerPhoneNumber, new CreditCard(1,",122,"));
+//        System.out.println(c0);
     }
-/*    public String toString(){
-        return "Role: " + this.role + " Name: " + this.getCustomerName() + " Phone number: " + this.getPhoneNumber();
-    }*/
 }

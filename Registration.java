@@ -11,7 +11,7 @@ class MyActionListener implements ActionListener{
     String name, phoneNumber, username, password;
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == registerButton) {
+       /* if (e.getSource() == registerButton) {
             name = nameField.getText();
             phoneNumber = phoneNumberField.getText();
             username = usernameField.getText();
@@ -31,15 +31,15 @@ class MyActionListener implements ActionListener{
 
                     // Create a file output stream and an object output stream
 
-/*                    FileOutputStream fos = new FileOutputStream("customers.txt", true);
-                    ObjectOutputStream oos = new ObjectOutputStream(fos);*/
+*//*                    FileOutputStream fos = new FileOutputStream("customers.txt", true);
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);*//*
 
                     // Write the user object to the file
 //                    oos.writeObject(newCustomer);
 
                     // Close the streams
-/*                    oos.close();
-                    fos.close();*/
+*//*                    oos.close();
+                    fos.close();*//*
 
                     // Show a success message
                     messageLabel.setText("User registered successfully.");
@@ -57,7 +57,7 @@ class MyActionListener implements ActionListener{
             usernameField.setText("");
             passwordField.setText("");
             messageLabel.setText("");
-        }
+        }*/
     }
 }
 public class Registration extends JFrame{

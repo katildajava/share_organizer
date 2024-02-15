@@ -59,27 +59,21 @@ public class SalonMain {
 
     }
     public void SalonMainExample(){
-        ManagerImpl managerRepository = new ManagerImpl();
+        ArrayList<StaffRole> roles = new ArrayList<>();
 
-        Role barber = new Role("Barber");
-        Role hairdresser = new Role("Hairdresser");
-        Role colorist = new Role("Colorist");
-        Role admin = new Role("Administrator");
-        Role manager = new Role("Manager");
+        roles.add(new StaffRole("Colorist"));
 
-        Manager m = new Manager("Alex", manager);
 
-        Staff s0 = new Staff(1,"David",admin,new String[]{"English","Russian","Estonian"});
-        Staff s1 = new Staff(2,"Zara",barber,new String[]{"English","Russian","Azerbaijan"});
-        Staff s2 = new Staff(3,"Linda",colorist,new String[]{"English","Estonian"});
-        Staff s3 = new Staff(4,"Nadezda",hairdresser,new String[]{"English","Russian"});
-        Staff s4 = new Staff(5,"Heiki",hairdresser,new String[]{"Russian","Estonian"});
+        Manager m = new Manager("Alex");
 
-        managerRepository.addStaff(s0);
-        managerRepository.addStaff(s1);
-        managerRepository.addStaff(s2);
-        managerRepository.addStaff(s3);
-        managerRepository.addStaff(s4);
+        Staff s0 = new Staff("David",2,new ArrayList<StaffRole>(){{add(new StaffRole("Barber"));}},"English, Russian, Estonian");
+        Staff s1 = new Staff("Zara",15,new ArrayList<StaffRole>(){{add(new StaffRole("Colorist"));}},"English, Russian, Azerbaijan");
+        s1.setStaffRoles(new ArrayList<StaffRole>(){{add(new StaffRole("Barber"));}});
+        Staff s2 = new Staff("Amira",30,new ArrayList<StaffRole>(){{add(new StaffRole("Stylist"));}},"English, Russian, Estonian");
+        Staff s3 = new Staff("Nadezda",10,new ArrayList<StaffRole>(){{add(new StaffRole("Hairdresser"));}},"English, Russian");
+        Staff s4 = new Staff("Heiki",10,new ArrayList<StaffRole>(){{add(new StaffRole("Hairdresser"));}},"Russian, Estonian");
+        Staff s5 = new Staff("Linda",15,new ArrayList<StaffRole>(){{add(new StaffRole("Administrator"));}},"English, Russian, Estonian");
+
 
 
 //        Service hairCut = new Service(Service.MenHaircut.MACHINE_CUT);

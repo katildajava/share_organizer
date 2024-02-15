@@ -1,27 +1,26 @@
-import java.util.ArrayList;
+public class Manager {
+    private static int nextID = 1;
 
-public class Manager{
-    private String name;
-    private Role role;
+    private int managerID;
+    private String managerName;
 
-
-    public Manager(String name, Role role) {
-        this.name = name;
-        this.role = role;
-    }
-    public String getName() {
-        return name;
+    public Manager(String managerName) {
+        this.managerID = nextID++;
+        this.managerName = managerName;
     }
 
-    public Role getRole() {
-        return role;
+    // Getters and setters
+
+    public int getManagerID() {
+        return managerID;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public String getManagerName() {
+        return managerName;
     }
 
-    public String toString(){
-        return "Name: " + this.getName() + " Role: " + this.role;
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
+
 }

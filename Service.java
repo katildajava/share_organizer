@@ -1,4 +1,56 @@
-public abstract class Service {
+import java.util.ArrayList;
+
+public class Service {
+    private static int nextServiceID = 1; // start with 1 and increment for each new service
+    private int serviceID;
+    private ServiceCategory serviceCategory;
+    private String serviceName;
+    private int servicePrice;
+    private int serviceMinutes;
+    private ArrayList<Integer> serviceBlockers;
+
+    public Service(ServiceCategory serviceCategory, String serviceName, int servicePrice, int serviceMinutes, ArrayList<Integer> serviceBlockers) {
+        this.serviceID = nextServiceID++;
+        this.serviceCategory = serviceCategory;
+        this.serviceName = serviceName;
+        this.servicePrice = servicePrice;
+        this.serviceMinutes = serviceMinutes;
+        this.serviceBlockers = serviceBlockers;
+    }
+
+    public int getServiceID() {
+        return serviceID;
+    }
+
+    public ServiceCategory getServiceCategory() {
+        return serviceCategory;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public int getServicePrice() {
+        return servicePrice;
+    }
+
+    public int getServiceMinutes() {
+        return serviceMinutes;
+    }
+
+    public ArrayList<Integer> getServiceBlockers() {
+        return serviceBlockers;
+    }
+
+    // Enum for service category
+    public enum ServiceCategory {
+        Coloring,
+        MenHaircut,
+        WomenHaircut,
+        ForChildren;
+    // Add more categories as needed
+}
+
     enum Coloring{
         CONSULTING(20), BLONDE_OUTGROWTH(95), BLONDE_SHORT_HAIR(105), BLONDE_MEDIUM_HAIR(125),
         BLONDE_LONG_HAIR(160), COLORING_SHORT_HAIR(65), COLORING_MEDIUM_HAIR(75), COLORING_LONG_HAIR(100),
@@ -58,7 +110,9 @@ public abstract class Service {
     Service(ForChildren forChildren){
         this.forChildren = forChildren;
     }
-    abstract void makeBooking();
+    public void makeBooking(){
+
+    }
 /*    public boolean registerService(){
         return Service.findService("haircut");
     }

@@ -1,59 +1,57 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 
-public class Staff implements StaffRepository{
-    private int id;
-    private String name;
-    private Role role;
-    private String[] languages;
+public class Staff {
+    private static int nextID = 1;
 
-    public Staff(int id, String name, Role role, String[] languages) {
-        this.id = id;
-        this.name = name;
-        this.role = role;
-        this.languages = languages;
+    private final int staffID;
+    private String staffName;
+    private int staffRate;
+    private ArrayList<StaffRole> staffRoles;
+    private String staffLanguages;
+
+    public Staff(String staffName, int staffRate, ArrayList<StaffRole> staffRoles, String staffLanguages) {
+        this.staffID = nextID++;
+        this.staffName = staffName;
+        this.staffRate = staffRate;
+        this.staffRoles = staffRoles;
+        this.staffLanguages = staffLanguages;
     }
 
-    public int getId() {
-        return id;
+    // Getters and setters
+
+    public int getStaffID() {
+        return staffID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getStaffName() {
+        return staffName;
     }
 
-    public String getName() {
-        return name;
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Role getRole() {
-        return role;
+    public int getStaffRate() {
+        return staffRate;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setStaffRate(int staffRate) {
+        this.staffRate = staffRate;
     }
 
-    public String[] getLanguages() {
-        return languages;
+    public ArrayList<StaffRole> getStaffRoles() {
+        return staffRoles;
     }
 
-    public void setLanguages(String[] languages) {
-        this.languages = languages;
-    }
-    public String toString() {
-        return "Name: " + this.getName() + " Role: " + this.role + " Spoken languages: " + Arrays.toString(this.languages);
+    public void setStaffRoles(ArrayList<StaffRole> staffRoles) {
+        this.staffRoles = staffRoles;
     }
 
-
-/*--------------------------------------------------------------------------------------------------*/
-
-
-    @Override
-    public void performHaircut(Customer customer){
-
+    public String getStaffLanguages() {
+        return staffLanguages;
     }
 
+    public void setStaffLanguages(String staffLanguages) {
+        this.staffLanguages = staffLanguages;
+    }
 }

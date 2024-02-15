@@ -1,65 +1,65 @@
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
-public class Appointment extends Service{
-    private Integer bookingNumber;
-    private Customer customer;
-    private List<Service> services;
-    private double totalPrice;
-    private String date;
-    private List<Appointment> appointments;
+public class Appointment {
+    private static int nextAppointmentID = 1;
+    private int appointmentID;
+    private Service service;
+    private Staff staff;
+    private LocalDateTime appointmentTimestamp;
+    private int appointmentPrice;
+    private int appointmentProfitRate;
 
-    Appointment(Coloring coloring) {
-        super(coloring);
+    public Appointment(Service service, Staff staff, LocalDateTime appointmentTimestamp, int appointmentPrice, int appointmentProfitRate) {
+        this.appointmentID = nextAppointmentID++;
+        this.service = service;
+        this.staff = staff;
+        this.appointmentTimestamp = appointmentTimestamp;
+        this.appointmentPrice = appointmentPrice;
+        this.appointmentProfitRate = appointmentProfitRate;
     }
 
-    Appointment(MenHaircut menHaircut) {
-        super(menHaircut);
+    // Getters and setters
+    public int getAppointmentID() {
+        return appointmentID;
     }
 
-    Appointment(WomenHaircut womenHaircut) {
-        super(womenHaircut);
+    public Service getService() {
+        return service;
     }
 
-    Appointment(ForChildren forChildren) {
-        super(forChildren);
+    public void setService(Service service) {
+        this.service = service;
     }
 
-    @Override
-    void makeBooking() {
-
+    public Staff getStaff() {
+        return staff;
     }
-/*    @Override
 
-
-
-    public Appointment(Customer customer, List<Service> services, String date, Integer bookingNumber) {
-
-        this.customer = customer;
-        this.services = services;
-        this.date = date;
-        this.bookingNumber = bookingNumber;
-        this.totalPrice = 0.0;
-        this.totalPrice = getTotalPrice();
-        appointments = new ArrayList<>();
-    }*/
-
-/*    public double getTotalPrice() {
-        if (this.totalPrice != 0.0)
-            return this.totalPrice;
-        for (Service service : services){
-            this.totalPrice += service.getPrice();
-        }
-        return this.totalPrice;
-    }*/
-/*    public static Appointment registers(Integer bookingNumber,Customer customer,List<Service> services, String date){
-        return new Appointment(customer,services,date,bookingNumber);
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
-    @Override
-    public String toString(){
-        String str = "Customer: " + this.customer.getUsername() + "\n" + "Booking number: " + this.bookingNumber.toString() + "\n" +
-                "Total price is: " + this.totalPrice + "\n" + "Appointment: " + this.date;
-        return str;
-    }*/
 
+    public LocalDateTime getAppointmentTimestamp() {
+        return appointmentTimestamp;
+    }
+
+    public void setAppointmentTimestamp(LocalDateTime appointmentTimestamp) {
+        this.appointmentTimestamp = appointmentTimestamp;
+    }
+
+    public int getAppointmentPrice() {
+        return appointmentPrice;
+    }
+
+    public void setAppointmentPrice(int appointmentPrice) {
+        this.appointmentPrice = appointmentPrice;
+    }
+
+    public int getAppointmentProfitRate() {
+        return appointmentProfitRate;
+    }
+
+    public void setAppointmentProfitRate(int appointmentProfitRate) {
+        this.appointmentProfitRate = appointmentProfitRate;
+    }
 }
