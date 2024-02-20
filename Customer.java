@@ -67,9 +67,9 @@ public class Customer {
 
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Edit username?");
+        System.out.println("Edit username.");
         String customerUsername = reader.nextLine();
-        System.out.println("Please edit password?");
+        System.out.println("Please edit password.");
         String customerPassword = reader.nextLine();
         System.out.println("What's your name?");
         String customerName = reader.nextLine();

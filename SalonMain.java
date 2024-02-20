@@ -1,11 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class SalonMain {
+
     public static void main(String[] args) throws Exception{
         SalonMain salon = new SalonMain();
         salon.SalonMainExample();
