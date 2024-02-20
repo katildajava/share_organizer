@@ -7,13 +7,13 @@ public class CreditCard {
     private String creditCardNumber;
     private String creditCardName;
     private int creditCardCVV;
-    private LocalDate creditCardExpireDate;
+    private ZonedDateTime creditCardExpireDate;
     private String creditCardAddressLine;
     private int creditCardPostcode;
     private static Scanner scanner = new Scanner(System.in);
 
     // Constructor
-    public CreditCard(String creditCardNumber, String creditCardName, int creditCardCVV, LocalDate creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
+    public CreditCard(String creditCardNumber, String creditCardName, int creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
         this.creditCardNumber = creditCardNumber;
         this.creditCardName = creditCardName;
         this.creditCardCVV = creditCardCVV;
@@ -47,15 +47,20 @@ public class CreditCard {
         this.creditCardCVV = creditCardCVV;
     }
 
-    public LocalDate getCreditCardExpireDate() {
+    public ZonedDateTime getCreditCardExpireDate() {
         return creditCardExpireDate;
     }
 
-    public void setCreditCardExpireDate(LocalDate creditCardExpireDate) {
+    public void setCreditCardExpireDate(ZonedDateTime creditCardExpireDate) {
         this.creditCardExpireDate = creditCardExpireDate;
     }
     public void setCreditCardExpireDate(int year, int month) {
-        this.creditCardExpireDate = YearMonth.of(year, month).atEndOfMonth();
+        if(year < 100){
+            this.creditCardExpireDate = ZonedDateTime.of(2000+year, month, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        }else{
+            this.creditCardExpireDate = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        }
+
     }
 
     public String getCreditCardAddressLine() {
@@ -128,14 +133,16 @@ public class CreditCard {
         System.out.println(askCustomer);
         return scanner.nextLine();
     }
-    private static LocalDate customerInputLocalDate(String askCustomer){
+    private static ZonedDateTime customerInputZonedDateTime(String askCustomer){
         System.out.println(askCustomer);
-        LocalDate localDate;
+        ZonedDateTime zonedDateTime;
         while (true) {
             try {
-                String customerInput = scanner.nextLine().replaceAll("[^0-9]", "");
-                localDate = LocalDate.parse(customerInput, DateTimeFormatter.ofPattern("MM/yy"));
-                if (localDate.isBefore(LocalDate.now())){System.out.println("Please enter date not from the future.");}
+                String customerInput = scanner.nextLine().replaceAll("[^1-9/]", "");
+                zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInput.split("/")[1]), Integer.parseInt(customerInput.split("/")[0]), 1, 0, 0, 0, 0, ZoneId.systemDefault());
+                if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0) {
+                    System.out.println("Please enter date not from the past.");
+                }
                 else {
                     break;
                 }
@@ -143,7 +150,7 @@ public class CreditCard {
                 System.out.println("This is not a correct date, please try again");
             }
         }
-        return localDate;
+        return zonedDateTime;
     }
     public String toString(){
         return "Credit Card Details:" +
@@ -160,7 +167,7 @@ public class CreditCard {
 
         String cardNumber = customerInputString("Enter your credit card number: ");
         String name = customerInputString("Enter full name from your credit card: ");
-        LocalDate expiryDate = customerInputLocalDate("Please enter the expiration date (MM/yy) of the credit card: ");
+        ZonedDateTime expiryDate = customerInputZonedDateTime("Please enter the expiration date (MM/yy) of the credit card: ");
         String cardType = customerInputString("Enter your card type (Visa, MasterCard, Discover, or AmericanExpress): ");
         int cvv = Integer.parseInt(customerInputString("Enter CVV: "));
         String address = customerInputString("Enter your Address: ");
