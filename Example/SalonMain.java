@@ -1,11 +1,58 @@
 package Example;
 
+import com.google.gson.Gson;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SalonMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        Service service1 = new Service(ServiceCategory.COLORING, "Service 1", 10, 30,
+                new ArrayList<>(Arrays.asList(1, 2)), new ArrayList<>(Arrays.asList(new StaffRole("Colorist"), new StaffRole(""))));
+
+        // Serialize Service object to JSON
+        Gson gson = new Gson();
+        String jsonService = gson.toJson(service1);
+
+        System.out.println("Serialized Service object:\n" + jsonService);
+        FileWriter writer = new FileWriter("serviceExample.json");
+        try {
+            writer.write(jsonService);
+        } finally {
+            writer.close();
+        }
+
+        // Deserialize JSON to Service object
+        Service deserializedService = gson.fromJson(jsonService, Service.class);
+
+        System.out.println("Deserialized Service object:\n" + deserializedService.getServiceName());
+
+//        ArrayList<Service> services = new ArrayList<>();
+//        services.add(new Service(ServiceCategory.COLORING, "Service 1", 10, 30,
+//                new ArrayList<>(Arrays.asList(1, 2)), new ArrayList<>(Arrays.asList(StaffRole.ROLE_A, StaffRole.ROLE_B))));
+//        services.add(new Service(ServiceCategory.FOR_CHILDREN, "Service 2", 20, 60,
+//                new ArrayList<>(Arrays.asList(3, 4)), new ArrayList<>(Arrays.asList(StaffRole.ROLE_C, StaffRole.ROLE_D))));
+//
+//        // Serialize ArrayList<Service> to JSON
+//        Gson gson = new Gson();
+//        String jsonServices = gson.toJson(services);
+//
+//        System.out.println("Serialized ArrayList<Service>:\n" + jsonServices);
+//
+//        // Deserialize JSON to ArrayList<Service>
+//        ArrayList<Service> deserializedServices = gson.fromJson(jsonServices, new TypeToken<ArrayList<Service>>() {}.getType());
+//
+//        System.out.println("Deserialized ArrayList<Service>:");
+//        for (Service service : deserializedServices) {
+//            System.out.println(service);
+//        }
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Choose an option:");
