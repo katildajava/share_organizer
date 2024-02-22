@@ -18,6 +18,10 @@ public class Customer {
         this.customerPhoneNumber = customerPhoneNumber;
         this.customerCreditCard = customerCreditCard;
     }
+    public void CustomerLogIn(String customerUsername, String customerPassword) {
+        this.customerUsername = customerUsername;
+        this.customerPassword = customerPassword;
+    }
 
     // Getters and setters for the properties
 
@@ -64,7 +68,6 @@ public class Customer {
     public void setCustomerCreditCard(CreditCard customerCreditCard) {
         this.customerCreditCard = customerCreditCard;
     }
-
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         System.out.println("Edit username.");
@@ -80,4 +83,5 @@ public class Customer {
 //        Customer c0 = new Customer(customerUsername, customerPassword, customerName, customerPhoneNumber, new CreditCard(1,",122,"));
 //        System.out.println(c0);
     }
+
 }

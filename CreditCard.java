@@ -1,19 +1,20 @@
+import java.io.Serializable;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class CreditCard {
-    private String creditCardNumber;
+    private Serializable creditCardNumber;
     private String creditCardName;
-    private int creditCardCVV;
+    private Serializable creditCardCVV;
     private ZonedDateTime creditCardExpireDate;
     private String creditCardAddressLine;
     private int creditCardPostcode;
     private static Scanner scanner = new Scanner(System.in);
 
     // Constructor
-    public CreditCard(String creditCardNumber, String creditCardName, int creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
+    public CreditCard(Serializable creditCardNumber, String creditCardName, Serializable creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
         this.creditCardNumber = creditCardNumber;
         this.creditCardName = creditCardName;
         this.creditCardCVV = creditCardCVV;
@@ -23,11 +24,11 @@ public class CreditCard {
     }
 
     // Getters and Setters
-    public String getCreditCardNumber() {
+    public Serializable getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(String creditCardNumber) {
+    public void setCreditCardNumber(Serializable creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
@@ -39,11 +40,11 @@ public class CreditCard {
         this.creditCardName = creditCardName;
     }
 
-    public int getCreditCardCVV() {
+    public Serializable getCreditCardCVV() {
         return creditCardCVV;
     }
 
-    public void setCreditCardCVV(int creditCardCVV) {
+    public void setCreditCardCVV(Serializable creditCardCVV) {
         this.creditCardCVV = creditCardCVV;
     }
 
@@ -78,63 +79,52 @@ public class CreditCard {
     public void setCreditCardPostcode(int creditCardPostcode) {
         this.creditCardPostcode = creditCardPostcode;
     }
-    public enum CardType{
-        VISA, MASTERCARD, DISCOVER, AMERICANEXPRESS
-    }
-/*    public static int get16CreditCardNumbers(Scanner input){
-        int number;
-        do {
-            System.out.println("Enter credit card number: ");
-            number = input.nextInt();
-        }while (!isValidCreditCardNumber(number));
-        return number;
-    }*/
-    public boolean isValidCreditCardNumber(CardType cardType){
-        String number = scanner.nextLine();
-        int digitNum = number.length();  // Calculate the number of digits in the input number
-        if (cardType == CardType.VISA || cardType == CardType.MASTERCARD || cardType == CardType.DISCOVER){
-            return digitNum == 16;  // Check if the number of digits is equal to 16
-        }else if (cardType == CardType.AMERICANEXPRESS){
-            return  digitNum == 15;
-        }else {
-        System.out.println("Unknown type of card. Please contact manager."); //If unknown card type, display an error message and return false
-        return false;
-        }
-    }
 
-    public static boolean isValidExpiryDate(){
-        String expiryDate = scanner.nextLine();
-        if (expiryDate == null || expiryDate.isEmpty()){
-            return false;
-        }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-        try{
-            YearMonth parsedExpiryDate = YearMonth.parse(expiryDate,formatter);
-            YearMonth currentMonth = YearMonth.now();
-            return parsedExpiryDate.isAfter(currentMonth);
-        }catch (DateTimeParseException e){
-            return false;
+    private static String customerInputCardNumber() {
+        System.out.println("Enter your credit card number: ");
+        String number = scanner.nextLine().trim(); // remove leading/trailing spaces
+
+        try {
+            long cardNumber = Long.parseLong(number); // convert input to a long
+            int digitNum = String.valueOf(cardNumber).length(); // calculate the number of digits
+
+            if (digitNum == 16 || digitNum == 15) {
+                return String.valueOf(cardNumber); // valid card number length
+            } else {
+                System.out.println("Unknown type of card. Please check your card number or contact the manager.");
+                return customerInputCardNumber(); // recurse to get a valid card number
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid numeric card number.");
+            return customerInputCardNumber(); // recurse to get a valid card number
         }
     }
-    public boolean isValidCVV(String cardType){
-//        System.out.println("Enter the credit card CVV: "); // method with scanner, don't forget to delete obj from ()
-        int creditCardCVV = scanner.nextInt();
-        String cvvString = String.valueOf(creditCardCVV); //Convert the integer CVV value to a string
-        if (cardType.equals("Visa") || cardType.equals("MasterCard") || cardType.equals("Discover")){ //Check the type of card and the corresponding CVV format
-            return  cvvString.matches("^\\d{3}$"); //Check if the CVV string matches the three-digit format
-        }else if (cardType.equals("AmericanExpress")){
-            return cvvString.matches("^\\d{4}$"); //Check if the CVV string matches the four-digit format
-        }else {
-            System.out.println("Unknown type of card. Please contact manager."); //If unknown card type, display an error message and return false
-            return false;
+                        /* Warning---------------Attention------------------Warning */
+    private static Serializable customerInputCVVCode(){
+        System.out.println("Enter CVV code: ");
+        String numberCVV = scanner.nextLine().trim(); //remove spaces
+        try{
+            byte cvvNumber = Byte.parseByte(numberCVV); // convert input to a byte
+            int digitNum = String.valueOf(cvvNumber).length(); //calculate the number of digits
+
+            if (digitNum == 3 || digitNum == 4){                             /*"does not work with 4 symbols"*/
+                return String.valueOf(cvvNumber); //valid number length
+            } else {
+                System.out.println("Code is not correct, please check your card and try again!");
+                return customerInputCVVCode(); // recurse to get a valid number
+
+            }
+        }catch (NumberFormatException e){
+            System.out.println("Invalid input. Please enter a valid numeric number.");
+            return customerInputCVVCode(); // recurse to get a valid number
         }
     }
     private static String customerInputString (String askCustomer){
         System.out.println(askCustomer);
         return scanner.nextLine();
     }
-    private static ZonedDateTime customerInputZonedDateTime(String askCustomer){
-        System.out.println(askCustomer);
+    private static ZonedDateTime customerInputZonedDateTime(){
+        System.out.println("Please enter the expiration date (MM/yy) of the credit card: ");
         ZonedDateTime zonedDateTime;
         while (true) {
             try {
@@ -154,30 +144,26 @@ public class CreditCard {
     }
     public String toString(){
         return "Credit Card Details:" +
-                "\nCard number: " + creditCardNumber +
-                "\nName: " + creditCardName +
-                "\nExpire Date: " + creditCardExpireDate.format(DateTimeFormatter.ofPattern("MM/yy")) +
-                "\nAddress: " + creditCardAddressLine +
-                "\nPostcode: " + creditCardPostcode;
+                "\nCard number: " + getCreditCardNumber() +
+                "\nName: " + getCreditCardName() +
+                "\nExpire Date: " + getCreditCardExpireDate().format(DateTimeFormatter.ofPattern("MM/yy")) +
+                "\nAddress: " + getCreditCardAddressLine() +
+                "\nPostcode: " + getCreditCardPostcode();
     }
 
 
     public static void main(String[] args) {
-//        Scanner input = new Scanner(System.in);
 
-        String cardNumber = customerInputString("Enter your credit card number: ");
+        Serializable cardNumber = customerInputCardNumber();
         String name = customerInputString("Enter full name from your credit card: ");
-        ZonedDateTime expiryDate = customerInputZonedDateTime("Please enter the expiration date (MM/yy) of the credit card: ");
-        String cardType = customerInputString("Enter your card type (Visa, MasterCard, Discover, or AmericanExpress): ");
-        int cvv = Integer.parseInt(customerInputString("Enter CVV: "));
+        ZonedDateTime expiryDate = customerInputZonedDateTime();
+        Serializable cvv = customerInputCVVCode();
         String address = customerInputString("Enter your Address: ");
         int postcode = Integer.parseInt(customerInputString("Enter your postcode: "));
 
-        CreditCard newCreditCard = new CreditCard(cardNumber, name, cvv, expiryDate, address, postcode);
-        System.out.println("Is valid credit card number: " + newCreditCard.isValidCreditCardNumber(CardType.valueOf(cardType)) +
-                "\nIs valid expiry date: " + isValidExpiryDate() +
-                "\nIs valid CVV: " + newCreditCard.isValidCVV(cardType));
-        System.out.println(newCreditCard.toString());
+        CreditCard otherCreditCard = new CreditCard(cardNumber, name, cvv, expiryDate, address, postcode);
+        otherCreditCard.toString();
+
 
     }
 

@@ -1,3 +1,6 @@
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class Service {
@@ -37,6 +40,10 @@ public class Service {
         return servicePrice;
     }
 
+    public void setServicePrice(int servicePrice) {
+        this.servicePrice = servicePrice;
+    }
+
     public int getServiceMinutes() {
         return serviceMinutes;
     }
@@ -58,6 +65,11 @@ public class Service {
         this.servicePrice = getServicePrice();
     }
 
+    public void setCategory(ServiceCategory category) {
+    }
+
+
+
     // Enum for service category
     enum ServiceCategory {
         COLORING,
@@ -65,7 +77,7 @@ public class Service {
         WOMAN_HAIRCUT,
         FOR_CHILDREN;
         ServiceCategory() {
-            /*this.coloring = coloring;
+/*            this.coloring = coloring;
             this.menHaircut = menHaircut;
             this.womenHaircut = womenHaircut;
             this.forChildren = forChildren;*/
@@ -116,7 +128,10 @@ public class Service {
 
     }
 
-    public static Service findService(String name){
-        return null;
+    public static void findServiceCategory(ServiceCategory category){
+        findServiceCategory(category);
+    }
+    public static void findService(ServiceCategory.Coloring coloring){
+        ServiceCategory.Coloring.valueOf("");
     }
 }

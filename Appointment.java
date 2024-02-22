@@ -1,25 +1,28 @@
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Appointment {
     private static int nextAppointmentID = 1;
     private final int appointmentID;
-    private Service service;
+    private Customer customer;
+    private ArrayList<Service> services;
     private Staff staff;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
-    private LocalDateTime appointmentTimestamp;
+    private ZonedDateTime appointmentTimestamp;
     private int appointmentPrice;
     private int appointmentProfitRate;
     private static Scanner scanner = new Scanner(System.in);
     private static Scanner choise = new Scanner(System.in); //add more appointments
 
-    public Appointment(Service service, Staff staff, LocalDateTime appointmentTimestamp, int appointmentPrice, int appointmentProfitRate) {
+    public Appointment(Customer customer, ArrayList<Service> services, Staff staff, ZonedDateTime appointmentTimestamp) {
+        this.customer = customer;
         this.appointmentID = nextAppointmentID++;
-        this.service = service;
+        this.services = services;
         this.staff = staff;
         this.appointmentTimestamp = appointmentTimestamp;
         this.appointmentPrice = appointmentPrice;
@@ -30,13 +33,19 @@ public class Appointment {
     public int getAppointmentID() {
         return appointmentID;
     }
-
-    public Service getService() {
-        return service;
+    public ArrayList<Service> getServices() {
+        return services;
     }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setServices(ArrayList<Service> services) {
+        this.services = services;
+    }
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Staff getStaff() {
@@ -47,16 +56,21 @@ public class Appointment {
         this.staff = staff;
     }
 
-    public String getAppointmentTimestamp() {
-        return formatter.format(appointmentTimestamp);
+    public ZonedDateTime getAppointmentTimestamp() {
+        return appointmentTimestamp;
     }
 
-    public void setAppointmentTimestamp(LocalDateTime appointmentTimestamp) {
+    public void setAppointmentTimestamp(ZonedDateTime appointmentTimestamp) {
         this.appointmentTimestamp = appointmentTimestamp;
     }
 
     public int getAppointmentPrice() {
-        return appointmentPrice;
+        if (this.appointmentPrice != 0)
+            return this.appointmentPrice;
+        for (Service service : services){
+            this.appointmentPrice += service.getServicePrice();
+        }
+        return this.appointmentPrice;
     }
 
     public void setAppointmentPrice(int appointmentPrice) {
@@ -70,29 +84,33 @@ public class Appointment {
     public void setAppointmentProfitRate(int appointmentProfitRate) {
         this.appointmentProfitRate = appointmentProfitRate;
     }
-    public String toStringForCustomer(){
-        return "ID: " + appointmentID + "\nService: " + service +
+    public String bookingInfoForCustomer(){
+        return "ID: " + appointmentID + "\nService: " + services +
                 "\nStaff: " + staff + "\nDate and time: " + appointmentTimestamp +
                 "\nService Price: " + appointmentPrice;
     }
-    public String toStringForManager(){
-        return  "AppointmentID: " + appointmentID +"\nService: " + service +
+    public String bookingInfoForManager(){
+        return  "AppointmentID: " + appointmentID +"\nService: " + services +
                 "\nStaff: " + staff + "\nDate and time: " + appointmentTimestamp +
                 "\nAppointment Profit Rate: " + appointmentProfitRate;
+    }
+    public static Appointment reservation(int appointmentID, Customer customer, ArrayList<Service> services,
+                                          Staff staff, ZonedDateTime appointmentTimestamp ){
+        return new Appointment(customer,services,staff,appointmentTimestamp);
     }
     private static String customerInputString(String askCustomer){
         System.out.println(askCustomer);
         return scanner.nextLine();
     }
 
-    private static LocalDateTime customerInputDateTime(String askCustomer){
+    private static ZonedDateTime customerInputDateTime(String askCustomer){
         System.out.println(askCustomer);
-        LocalDateTime localDateTime;
+        ZonedDateTime zonedDateTime;
         while(true){
             try{
                 String customerInput = scanner.nextLine().replaceAll("[^0-9]","");
-                localDateTime = LocalDateTime.parse(customerInput, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
-                if (localDateTime.isBefore(LocalDateTime.now())){
+                zonedDateTime = ZonedDateTime.parse(customerInput, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+                if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0){
                     System.out.println("Please enter the date and time: ");
                 }else{
                     break;
@@ -101,12 +119,13 @@ public class Appointment {
                 System.out.println("This is not correct date and time, please try again.");
             }
         }
-        return localDateTime;
+        return zonedDateTime;
     }
     private static boolean customerInputChoice(String askCustomer){
         System.out.println(askCustomer);
         String customerInput = choise.nextLine();
         return customerInput.contains("+");
     }
+
 
 }

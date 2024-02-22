@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class SalonMain {
 
     public static void main(String[] args) throws Exception{
+
         SalonMain salon = new SalonMain();
         salon.SalonMainExample();
 
