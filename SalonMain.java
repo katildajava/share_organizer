@@ -1,90 +1,109 @@
-import javax.swing.*;
-import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import javax.management.relation.Role;
+import java.io.*;
+import java.util.*;
 
 public class SalonMain {
+    private static final String CUSTOMERS_FILE = "Customers.json";
+    private static final String MANAGER_FILE = "Manager.json";
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose an option: \n1. Log in \n2. Create an Account \n3. Settings");
 
-    public static void main(String[] args) throws Exception{
+        int option = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
 
-        SalonMain salon = new SalonMain();
-        salon.SalonMainExample();
-
-
-
-/*        ArrayList<Staff> staff = new ArrayList<Staff>();
-
-        JFrame frame = new JFrame("Органайзер"); // Создание окна
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Закрытие окна при нажатии кнопки "Отказаться"
-        frame.setSize(500, 300); // Установка размеров окна
-        new Registration();*/
-//        storage.addService("Haircut",30.0);
-//        storage.scheduleAppointment("22.04.2024","17:00",stylist,customer);
-//        customer.addCustomer(customer);
-//        customer.print();
-       /* Scanner console = new Scanner(System.in);
-        String user, password;
-        System.out.println("Enter user name: ");
-        user = console.nextLine();
-        System.out.println("Enter password: ");
-        password = console.nextLine();
-        switch (user){
-            case "admin":
-                if (password.equals("whatagoodday")){
-                    System.out.println("Welcome back!");
-                }else{
-                    System.out.println("Wrong password");
-                }
+        switch (option) {
+            case 1:
+                Customer.login(scanner);
+                Customer.customerMenu(scanner);
                 break;
-            case "customer":
-                if (password.equals("something")){
-                    System.out.println("welcome");
-                } else{
-                    System.out.println("Wrong password!");
-                }
+            case 2:
+                Customer.createCustomer(scanner);
+                Customer.customerMenu(scanner);
                 break;
-            case "hairstylist":
-                if (password.equals("ilovemyjob")){
-                    System.out.println("Welcome back and have a nice day!");
-                } else{
-                    System.out.println("Wrong password!");
-                }
+            case 3:
+                System.out.println("The settings are accessible only to the salon manager. If you are the manager, please Login:");
+                Manager.loginManager(scanner);
+                Manager.managerMenu(scanner);
                 break;
             default:
-                System.out.println("Invalid username or password!");
+                System.out.println("Invalid option");
+                break;
         }
-        console.close();*/
+        scanner.close();
 
 
+       /* Service service1 = new Service(ServiceCategory.COLORING, "Consulting", ServiceCategory.Coloring.CONSULTING.getPrice(), 20,
+                new ArrayList<>(Arrays.asList(1, 2)), new ArrayList<>(Arrays.asList(new StaffRole("Colorist"), new StaffRole(""))));
+
+        Gson gson = new Gson(); // Serialize Service object to JSON
+        String jsonService = gson.toJson(service1);
+
+//        System.out.println("Serialized Service object:\n" + jsonService);
+        FileWriter writer = new FileWriter("Services.json");
+        try {
+            writer.write(jsonService);
+        } finally {
+            writer.close();
+        }
+
+        Service deserializedService = gson.fromJson(jsonService, Service.class);// Deserialize JSON to Service object
+
+
+        System.out.println("Deserialized Service object:\n" + deserializedService.getServiceName());
+
+        ArrayList<Service> services = new ArrayList<>();
+        services.add(new Service(ServiceCategory.COLORING, "Service 1", 10, 30,
+                new ArrayList<>(Arrays.asList(1, 2)), new ArrayList<>(Arrays.asList(StaffRole.ROLE_A, StaffRole.ROLE_B))));
+        services.add(new Service(ServiceCategory.FOR_CHILDREN, "Service 2", 20, 60,
+                new ArrayList<>(Arrays.asList(3, 4)), new ArrayList<>(Arrays.asList(StaffRole.ROLE_C, StaffRole.ROLE_D))));
+
+        // Serialize ArrayList<Service> to JSON
+        Gson gson = new Gson();
+        String jsonServices = gson.toJson(services);
+
+        System.out.println("Serialized ArrayList<Service>:\n" + jsonServices);
+
+        // Deserialize JSON to ArrayList<Service>
+        ArrayList<Service> deserializedServices = gson.fromJson(jsonServices, new TypeToken<ArrayList<Service>>() {}.getType());
+
+        System.out.println("Deserialized ArrayList<Service>:");
+        for (Service service : deserializedServices) {
+            System.out.println(service);
+        }*/
 
     }
-    public void SalonMainExample(){
-        ArrayList<StaffRole> roles = new ArrayList<>();
-
-        roles.add(new StaffRole("Colorist"));
-
-
-        Manager m = new Manager("Alex");
-
-        Staff s0 = new Staff("David",2,new ArrayList<StaffRole>(){{add(new StaffRole("Barber"));}},"English, Russian, Estonian");
-        Staff s1 = new Staff("Zara",15,new ArrayList<StaffRole>(){{add(new StaffRole("Colorist"));}},"English, Russian, Azerbaijan");
-        s1.setStaffRoles(new ArrayList<StaffRole>(){{add(new StaffRole("Barber"));}});
-        Staff s2 = new Staff("Amira",30,new ArrayList<StaffRole>(){{add(new StaffRole("Stylist"));}},"English, Russian, Estonian");
-        Staff s3 = new Staff("Nadezda",10,new ArrayList<StaffRole>(){{add(new StaffRole("Hairdresser"));}},"English, Russian");
-        Staff s4 = new Staff("Heiki",10,new ArrayList<StaffRole>(){{add(new StaffRole("Hairdresser"));}},"Russian, Estonian");
-        Staff s5 = new Staff("Linda",15,new ArrayList<StaffRole>(){{add(new StaffRole("Administrator"));}},"English, Russian, Estonian");
+    private static void chooseAnOption(){
+        System.out.println("Choose an option:");
+    }
 
 
 
-//        Service hairCut = new Service(Service.MenHaircut.MACHINE_CUT);
 
+
+
+
+    private static void createAppointment(Scanner scanner) {
+//                // Get the necessary details for creating an appointment
+//                // ...
+//
+//                // Create a Service object
+//                Service service = new Service(/* service details */);
+//
+//                // Create a Staff object
+//                Staff staff = new Staff(/* staff details */);
+//
+//                // Create an Appointment object
+//                Appointment appointment = new Appointment(service, staff, /* appointment details */);
+//
+//                // Use the appointment object as needed
+//                // ...
+
+//                System.out.println("Appointment created: " + appointment.getAppointmentID());
     }
 
 }

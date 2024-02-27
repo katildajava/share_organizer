@@ -1,3 +1,4 @@
+/*
 package Example;
 
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ public class SalonMain {
         Service deserializedService = gson.fromJson(jsonService, Service.class);
 
         System.out.println("Deserialized Service object:\n" + deserializedService.getServiceName());
+*/
 
 //        ArrayList<Service> services = new ArrayList<>();
 //        services.add(new Service(ServiceCategory.COLORING, "Service 1", 10, 30,
@@ -50,6 +52,7 @@ public class SalonMain {
 //
 //        System.out.println("Deserialized ArrayList<Service>:");
 //        for (Service service : deserializedServices) {
+/*
 //            System.out.println(service);
 //        }
 
@@ -109,8 +112,9 @@ public class SalonMain {
 
         System.out.println("Customer created: " + customer.getCustomerName());
     }
+*/
 
-    private static void createStaff(Scanner scanner) {
+//    private static void createStaff(Scanner scanner) {
 //                System.out.println("Enter staff name:");
 //                String name = scanner.nextLine();
 //
@@ -128,9 +132,9 @@ public class SalonMain {
 //                // ...
 //
 //                System.out.println("Staff created: " + staff.getStaffName());
-    }
+//    }
 
-    private static void createAppointment(Scanner scanner) {
+//    private static void createAppointment(Scanner scanner) {
 //                // Get the necessary details for creating an appointment
 //                // ...
 //
@@ -147,5 +151,5 @@ public class SalonMain {
 //                // ...
 
 //                System.out.println("Appointment created: " + appointment.getAppointmentID());
-    }
-}
+//    }
+//}

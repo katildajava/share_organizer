@@ -1,17 +1,15 @@
+
 import java.util.ArrayList;
 
 public class Appointments {
     private static int nextAppointmentsID = 1;
-    private int appointmentsID;
+    private final int appointmentsID;
     private ArrayList<Appointment> appointments;
     private Customer customer;
 
-    public Appointments(ArrayList<Appointment> appointments, Customer customer) {
-        if (appointments.isEmpty()) {
-            throw new IllegalArgumentException("Appointments list cannot be empty.");
-        }
+    public Appointments(Customer customer) {
         this.appointmentsID = nextAppointmentsID++;
-        this.appointments = appointments;
+        this.appointments = new ArrayList<>();
         this.customer = customer;
     }
 
@@ -38,4 +36,15 @@ public class Appointments {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }    // Add an appointment to the list
+
+
+    public void removeAppointment(Appointment appointment) {
+        appointments.remove(appointment);
+    }// Remove an appointment from the list
+
+    // Generate a unique appointments ID
 }

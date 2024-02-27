@@ -1,5 +1,5 @@
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.io.IOException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -12,7 +12,6 @@ public class Appointment {
     private Customer customer;
     private ArrayList<Service> services;
     private Staff staff;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
     private ZonedDateTime appointmentTimestamp;
     private int appointmentPrice;
     private int appointmentProfitRate;
@@ -84,6 +83,66 @@ public class Appointment {
     public void setAppointmentProfitRate(int appointmentProfitRate) {
         this.appointmentProfitRate = appointmentProfitRate;
     }
+    protected static void createAppointment(Scanner scanner) throws IOException {
+
+//        ZonedDateTime dateAndTime = customerInputDateTime();
+//        System.out.println("You entered " + dateAndTime);
+        System.out.println("Please choose the service category you need: ");
+        System.out.println("1. Coloring");
+        System.out.println("2. Men Haircut");
+        System.out.println("3. Women Haircut");
+        System.out.println("4. For Children");
+        int selectedServiceIndex = scanner.nextInt();
+
+        switch (selectedServiceIndex) {
+            case 1:
+                System.out.println("You selected coloring services.");
+                for (ServiceCategory.Coloring selectedColoring : ServiceCategory.Coloring.values()) {
+                    System.out.println(selectedColoring);
+                }
+                System.out.println("Please choose the service you need:");
+                String selectedService = scanner.nextLine();
+
+                int coloringPrice = ServiceCategory.Coloring.valueOf(selectedService.toUpperCase()).getPrice();
+                System.out.println("The price of the selected service is: " + coloringPrice);
+                break;
+            case 2:
+                System.out.println("You selected men's haircut services.");
+                for (ServiceCategory.MenHaircut selectedMenHaircut : ServiceCategory.MenHaircut.values()) {
+                    System.out.println(selectedMenHaircut);
+                }
+                System.out.println("Please choose the service you need:");
+                break;
+            case 3:
+                System.out.println("You selected women's haircut services.");
+                for (ServiceCategory.WomenHaircut selectedWomenHaircut : ServiceCategory.WomenHaircut.values()) {
+                    System.out.println(selectedWomenHaircut);
+                }
+                System.out.println("Please choose the service you need:");
+                break;
+            case 4:
+                System.out.println("You selected services for children.");
+                for (ServiceCategory.ForChildren selectedForChildren : ServiceCategory.ForChildren.values()) {
+                    System.out.println(selectedForChildren);
+                }
+                System.out.println("Please choose the service you need:");
+                break;
+            default:
+                System.out.println("Invalid service category.");
+                break;
+        }
+        scanner.nextLine();
+        String selectedService = scanner.nextLine();
+        System.out.println("You selected service:" + selectedService);
+
+    }
+    protected static void makeChanges(Scanner scanner){
+
+    }
+    protected static void deleteAppointment(Scanner scanner) throws IOException {
+
+
+    }
     public String bookingInfoForCustomer(){
         return "ID: " + appointmentID + "\nService: " + services +
                 "\nStaff: " + staff + "\nDate and time: " + appointmentTimestamp +
@@ -94,22 +153,18 @@ public class Appointment {
                 "\nStaff: " + staff + "\nDate and time: " + appointmentTimestamp +
                 "\nAppointment Profit Rate: " + appointmentProfitRate;
     }
-    public static Appointment reservation(int appointmentID, Customer customer, ArrayList<Service> services,
+/*    public static Appointment reservation(int appointmentID, Customer customer, ArrayList<Service> services,
                                           Staff staff, ZonedDateTime appointmentTimestamp ){
         return new Appointment(customer,services,staff,appointmentTimestamp);
-    }
-    private static String customerInputString(String askCustomer){
-        System.out.println(askCustomer);
-        return scanner.nextLine();
-    }
+    }*/
 
-    private static ZonedDateTime customerInputDateTime(String askCustomer){
-        System.out.println(askCustomer);
+    protected static ZonedDateTime customerInputDateTime() throws IOException{
+        System.out.println("Please enter the date and time (dd/MM/yy HH:mm) when you prefer to make a booking");
         ZonedDateTime zonedDateTime;
         while(true){
             try{
-                String customerInput = scanner.nextLine().replaceAll("[^0-9]","");
-                zonedDateTime = ZonedDateTime.parse(customerInput, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+                String customerInput = scanner.nextLine().replaceAll("[^1-9/]","");
+                zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInput.split("/")[1]), Integer.parseInt(customerInput.split("/")[0]), 1, 0, 0, 0, 0, ZoneId.systemDefault());
                 if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0){
                     System.out.println("Please enter the date and time: ");
                 }else{
@@ -121,11 +176,11 @@ public class Appointment {
         }
         return zonedDateTime;
     }
-    private static boolean customerInputChoice(String askCustomer){
+/*    private static boolean customerInputChoice(String askCustomer){
         System.out.println(askCustomer);
         String customerInput = choise.nextLine();
         return customerInput.contains("+");
-    }
+    }*/
 
 
 }

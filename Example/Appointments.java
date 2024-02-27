@@ -1,3 +1,4 @@
+/*
 package Example;
 
 import java.util.ArrayList;
@@ -47,4 +48,4 @@ public class Appointments {
     }
 
     // Generate a unique appointments ID
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package Example;
 
 public class Customer {
@@ -63,4 +64,4 @@ public class Customer {
     public void setCustomerCreditCard(CreditCard customerCreditCard) {
         this.customerCreditCard = customerCreditCard;
     }
-}
+}*/

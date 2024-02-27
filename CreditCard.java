@@ -5,30 +5,34 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class CreditCard {
-    private Serializable creditCardNumber;
+    private long creditCardNumber;
     private String creditCardName;
-    private Serializable creditCardCVV;
+    private int creditCardCVV;
     private ZonedDateTime creditCardExpireDate;
     private String creditCardAddressLine;
     private int creditCardPostcode;
     private static Scanner scanner = new Scanner(System.in);
 
     // Constructor
-    public CreditCard(Serializable creditCardNumber, String creditCardName, Serializable creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardName = creditCardName;
-        this.creditCardCVV = creditCardCVV;
-        this.creditCardExpireDate = creditCardExpireDate;
-        this.creditCardAddressLine = creditCardAddressLine;
-        this.creditCardPostcode = creditCardPostcode;
+    public CreditCard(long creditCardNumber, String creditCardName, int creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
+        if (isValidCardNumber(creditCardNumber) && isValidCVV(creditCardCVV) && isValidExpireDate(creditCardExpireDate)) {
+            this.creditCardNumber = creditCardNumber;
+            this.creditCardName = creditCardName;
+            this.creditCardCVV = creditCardCVV;
+            this.creditCardExpireDate = creditCardExpireDate;
+            this.creditCardAddressLine = creditCardAddressLine;
+            this.creditCardPostcode = creditCardPostcode;
+        } else {
+            throw new IllegalArgumentException("Invalid credit card details");
+        }
     }
 
     // Getters and Setters
-    public Serializable getCreditCardNumber() {
+    public long getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(Serializable creditCardNumber) {
+    public void setCreditCardNumber(long creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
@@ -40,11 +44,11 @@ public class CreditCard {
         this.creditCardName = creditCardName;
     }
 
-    public Serializable getCreditCardCVV() {
+    public int getCreditCardCVV() {
         return creditCardCVV;
     }
 
-    public void setCreditCardCVV(Serializable creditCardCVV) {
+    public void setCreditCardCVV(int creditCardCVV) {
         this.creditCardCVV = creditCardCVV;
     }
 
@@ -79,8 +83,19 @@ public class CreditCard {
     public void setCreditCardPostcode(int creditCardPostcode) {
         this.creditCardPostcode = creditCardPostcode;
     }
+    protected boolean isValidCardNumber(long creditCardNumber) {
+        return String.valueOf(creditCardNumber).length() == 16;
+    }
 
-    private static String customerInputCardNumber() {
+    protected boolean isValidCVV(int creditCardCVV) {
+        return String.valueOf(creditCardCVV).length() == 3;
+    }
+
+    protected boolean isValidExpireDate(ZonedDateTime creditCardExpireDate) {
+        ZonedDateTime currentDateTime = ZonedDateTime.now();
+        return creditCardExpireDate.isAfter(currentDateTime);
+    }
+    protected static String customerInputCardNumber() {
         System.out.println("Enter your credit card number: ");
         String number = scanner.nextLine().trim(); // remove leading/trailing spaces
 
@@ -100,7 +115,7 @@ public class CreditCard {
         }
     }
                         /* Warning---------------Attention------------------Warning */
-    private static Serializable customerInputCVVCode(){
+    protected static int customerInputCVVCode(){
         System.out.println("Enter CVV code: ");
         String numberCVV = scanner.nextLine().trim(); //remove spaces
         try{
@@ -108,7 +123,7 @@ public class CreditCard {
             int digitNum = String.valueOf(cvvNumber).length(); //calculate the number of digits
 
             if (digitNum == 3 || digitNum == 4){                             /*"does not work with 4 symbols"*/
-                return String.valueOf(cvvNumber); //valid number length
+                return cvvNumber; //valid number length
             } else {
                 System.out.println("Code is not correct, please check your card and try again!");
                 return customerInputCVVCode(); // recurse to get a valid number
@@ -119,22 +134,27 @@ public class CreditCard {
             return customerInputCVVCode(); // recurse to get a valid number
         }
     }
-    private static String customerInputString (String askCustomer){
+    protected static String customerInputString (String askCustomer){
         System.out.println(askCustomer);
         return scanner.nextLine();
     }
-    private static ZonedDateTime customerInputZonedDateTime(){
+    protected static ZonedDateTime customerInputZonedDateTime(){
         System.out.println("Please enter the expiration date (MM/yy) of the credit card: ");
         ZonedDateTime zonedDateTime;
         while (true) {
             try {
-                String customerInput = scanner.nextLine().replaceAll("[^1-9/]", "");
-                zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInput.split("/")[1]), Integer.parseInt(customerInput.split("/")[0]), 1, 0, 0, 0, 0, ZoneId.systemDefault());
-                if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0) {
-                    System.out.println("Please enter date not from the past.");
+                String customerInput = scanner.nextLine().replaceAll("[^0-9/]", ""); // remove non-numeric and non-slash characters
+                String[] inputParts = customerInput.split("/"); // split the input by "/"
+                if (inputParts.length != 2) {
+                    System.out.println("Invalid date format. Please enter the expiration date in MM/yy format.");
+                    continue; // restart the loop to prompt for input again
                 }
-                else {
-                    break;
+                int month = Integer.parseInt(inputParts[0]), year = 2000 + Integer.parseInt(inputParts[1]);
+                zonedDateTime = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+                if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0) {
+                    System.out.println("Please enter a date not from the past.");
+                } else {
+                    break; // exit the loop if the input is valid
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("This is not a correct date, please try again");
@@ -149,22 +169,6 @@ public class CreditCard {
                 "\nExpire Date: " + getCreditCardExpireDate().format(DateTimeFormatter.ofPattern("MM/yy")) +
                 "\nAddress: " + getCreditCardAddressLine() +
                 "\nPostcode: " + getCreditCardPostcode();
-    }
-
-
-    public static void main(String[] args) {
-
-        Serializable cardNumber = customerInputCardNumber();
-        String name = customerInputString("Enter full name from your credit card: ");
-        ZonedDateTime expiryDate = customerInputZonedDateTime();
-        Serializable cvv = customerInputCVVCode();
-        String address = customerInputString("Enter your Address: ");
-        int postcode = Integer.parseInt(customerInputString("Enter your postcode: "));
-
-        CreditCard otherCreditCard = new CreditCard(cardNumber, name, cvv, expiryDate, address, postcode);
-        otherCreditCard.toString();
-
-
     }
 
 }

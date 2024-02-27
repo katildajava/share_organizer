@@ -1,16 +1,16 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Staff {
-    private static int nextID = 1;
-
+    private static int nextStaffID = 1;
     private final int staffID;
     private String staffName;
-    private int staffRate;
-    private ArrayList<StaffRole> staffRoles;
+    private double staffRate;
+    private StaffRole staffRoles;
     private String staffLanguages;
 
-    public Staff(String staffName, int staffRate, ArrayList<StaffRole> staffRoles, String staffLanguages) {
-        this.staffID = nextID++;
+    public Staff(String staffName, double staffRate, StaffRole staffRoles, String staffLanguages) {
+        this.staffID = nextStaffID++;
         this.staffName = staffName;
         this.staffRate = staffRate;
         this.staffRoles = staffRoles;
@@ -18,40 +18,60 @@ public class Staff {
     }
 
     // Getters and setters
-
     public int getStaffID() {
         return staffID;
     }
-
     public String getStaffName() {
         return staffName;
     }
-
     public void setStaffName(String staffName) {
         this.staffName = staffName;
     }
-
-    public int getStaffRate() {
+    public double getStaffRate() {
         return staffRate;
     }
-
-    public void setStaffRate(int staffRate) {
+    public void setStaffRate(double staffRate) {
         this.staffRate = staffRate;
     }
-
-    public ArrayList<StaffRole> getStaffRoles() {
+    public StaffRole getStaffRoles() {
         return staffRoles;
     }
-
-    public void setStaffRoles(ArrayList<StaffRole> staffRoles) {
+    public void setStaffRoles(StaffRole staffRoles) {
         this.staffRoles = staffRoles;
     }
-
     public String getStaffLanguages() {
         return staffLanguages;
     }
-
     public void setStaffLanguages(String staffLanguages) {
         this.staffLanguages = staffLanguages;
+    }
+    public static double getStaffRate(String staffRole) {
+        double basicRate;
+        return switch (staffRole) {
+            case "barber" -> {
+                basicRate = 30.0;
+                yield basicRate;
+            }
+            case "hairdresser" -> {
+                basicRate = 20.0;
+                yield basicRate;
+            }
+            case "stylist" -> {
+                basicRate = 50.0;
+                yield basicRate;
+            }
+            case "colorist" -> {
+                basicRate = 40.0;
+                yield basicRate;
+            }
+            default -> {
+                System.out.println("Invalid staff role. Please choose from the provided options.");
+                yield 0.0;
+            }
+        };
+    }
+    protected static String inputStaffRole (Scanner scanner){
+        System.out.println("Enter role( barber/hairdresser/colorist/stylist):");
+        return scanner.nextLine().toLowerCase();
     }
 }

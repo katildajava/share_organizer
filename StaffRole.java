@@ -1,11 +1,13 @@
-public class StaffRole {
-    private static int nextID = 1;
+import java.util.Scanner;
 
+public class StaffRole {
+    private static int nextStaffRoleID = 1;
     private final int staffRoleID;
     private String staffRoleName;
+    private static Scanner scanner = new Scanner(System.in);
 
     public StaffRole(String staffRoleName) {
-        this.staffRoleID = nextID++;
+        this.staffRoleID = nextStaffRoleID++;
         this.staffRoleName = staffRoleName;
     }
 
@@ -22,4 +24,5 @@ public class StaffRole {
     public void setStaffRoleName(String staffRoleName) {
         this.staffRoleName = staffRoleName;
     }
+
 }

@@ -1,3 +1,4 @@
+/*
 package Example;
 
 public class StaffRole {
@@ -17,4 +18,4 @@ public class StaffRole {
     public String getStaffRoleName() {
         return staffRoleName;
     }
-}
+}*/

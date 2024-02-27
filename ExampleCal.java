@@ -4,13 +4,44 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class ExampleCal {
-    public static void main(String[] args) {
 
+    protected static ZonedDateTime customerInputDateTime() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
 
-        JFrame frame = new JFrame("Organizer");
+        while (true) {
+            try {
+                System.out.println("Please enter the date and time (dd/MM/yy HH:mm):");
+                String customerInput = scanner.nextLine();
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(customerInput, formatter);
+
+                if (zonedDateTime.isBefore(ZonedDateTime.now())) {
+                    System.out.println("Please enter a future date and time.");
+                } else {
+                    return zonedDateTime;
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date and time format. Please try again.");
+            }
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        try {
+            ZonedDateTime bookingDateTime = customerInputDateTime();
+            System.out.println("Booking date and time: " + bookingDateTime);
+        } catch (IOException e) {
+            System.out.println("Error reading input.");
+        }
+        /*JFrame frame = new JFrame("Organizer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 300);
 
@@ -31,7 +62,7 @@ public class ExampleCal {
         });
 
         frame.add(okButton, BorderLayout.SOUTH);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 
 }
