@@ -1,7 +1,4 @@
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.*;
 import java.sql.SQLOutput;
@@ -80,7 +77,7 @@ public class Customer {
 
     private static void writeCustomerToFile(ArrayList<JsonObject> customersArray) throws IOException{
         try(FileWriter writer = new FileWriter(CUSTOMERS_FILE)){ // Create a FileWriter for the customers file
-            writer.write(new Gson().toJson(customersArray)); // Write the ArrayList of customer data to the file as JSON
+            writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(customersArray)); // Write the ArrayList of customer data to the file as JSON
         }
     }
 
@@ -150,7 +147,7 @@ public class Customer {
         ZonedDateTime expiryDate = CreditCard.customerInputZonedDateTime();
         int cvv = CreditCard.customerInputCVVCode();
         String address = CreditCard.customerInputString("Enter your Address: ");
-        int postcode = Integer.parseInt(CreditCard.customerInputString("Enter your postcode: "));
+        String postcode = CreditCard.customerInputString("Enter your postcode: ");
 
         CreditCard creditCard = new CreditCard(cardNumber, fullName, cvv, expiryDate, address, postcode);
         Customer customer = new Customer(username, password, name, phoneNumber, creditCard);// Create a Customer object

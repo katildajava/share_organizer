@@ -92,19 +92,21 @@ public class Appointment {
         System.out.println("2. Men Haircut");
         System.out.println("3. Women Haircut");
         System.out.println("4. For Children");
-        int selectedServiceIndex = scanner.nextInt();
+        String selectedServiceIndex = scanner.nextLine();
 
-        switch (selectedServiceIndex) {
+        switch (Integer.parseInt(selectedServiceIndex)) {
             case 1:
                 System.out.println("You selected coloring services.");
+                ArrayList<ServiceCategory.Coloring> categories = new ArrayList<>();
+                int categoryI = 1;
                 for (ServiceCategory.Coloring selectedColoring : ServiceCategory.Coloring.values()) {
-                    System.out.println(selectedColoring);
+                    System.out.println(categoryI + ". " +selectedColoring + " " + selectedColoring.getPrice());
+                    categories.add(selectedColoring);
+                    categoryI++;
                 }
                 System.out.println("Please choose the service you need:");
                 String selectedService = scanner.nextLine();
-
-                int coloringPrice = ServiceCategory.Coloring.valueOf(selectedService.toUpperCase()).getPrice();
-                System.out.println("The price of the selected service is: " + coloringPrice);
+                System.out.println("The price of the selected service is: " + categories.get(Integer.parseInt(selectedService)-1).getPrice());
                 break;
             case 2:
                 System.out.println("You selected men's haircut services.");
@@ -163,8 +165,12 @@ public class Appointment {
         ZonedDateTime zonedDateTime;
         while(true){
             try{
-                String customerInput = scanner.nextLine().replaceAll("[^1-9/]","");
-                zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInput.split("/")[1]), Integer.parseInt(customerInput.split("/")[0]), 1, 0, 0, 0, 0, ZoneId.systemDefault());
+                String[] customerInputArray = scanner.nextLine().replaceAll("[^1-9/: ]","").split("[: /]");
+                zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInputArray[2]),
+                        Integer.parseInt(customerInputArray[1]),
+                        Integer.parseInt(customerInputArray[0]),
+                        Integer.parseInt(customerInputArray[3]),
+                        Integer.parseInt(customerInputArray[4]), 0, 0, ZoneId.systemDefault());
                 if (zonedDateTime.compareTo(ZonedDateTime.now()) < 0){
                     System.out.println("Please enter the date and time: ");
                 }else{

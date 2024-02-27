@@ -10,11 +10,11 @@ public class CreditCard {
     private int creditCardCVV;
     private ZonedDateTime creditCardExpireDate;
     private String creditCardAddressLine;
-    private int creditCardPostcode;
+    private String creditCardPostcode;
     private static Scanner scanner = new Scanner(System.in);
 
     // Constructor
-    public CreditCard(long creditCardNumber, String creditCardName, int creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, int creditCardPostcode) {
+    public CreditCard(long creditCardNumber, String creditCardName, int creditCardCVV, ZonedDateTime creditCardExpireDate, String creditCardAddressLine, String creditCardPostcode) {
         if (isValidCardNumber(creditCardNumber) && isValidCVV(creditCardCVV) && isValidExpireDate(creditCardExpireDate)) {
             this.creditCardNumber = creditCardNumber;
             this.creditCardName = creditCardName;
@@ -76,19 +76,19 @@ public class CreditCard {
         this.creditCardAddressLine = creditCardAddressLine;
     }
 
-    public int getCreditCardPostcode() {
+    public String getCreditCardPostcode() {
         return creditCardPostcode;
     }
 
-    public void setCreditCardPostcode(int creditCardPostcode) {
+    public void setCreditCardPostcode(String creditCardPostcode) {
         this.creditCardPostcode = creditCardPostcode;
     }
-    protected boolean isValidCardNumber(long creditCardNumber) {
-        return String.valueOf(creditCardNumber).length() == 16;
+    protected static boolean isValidCardNumber(long creditCardNumber) {
+        return (String.valueOf(creditCardNumber).length() == 15 || String.valueOf(creditCardNumber).length() == 16);
     }
 
-    protected boolean isValidCVV(int creditCardCVV) {
-        return String.valueOf(creditCardCVV).length() == 3;
+    protected static boolean isValidCVV(int creditCardCVV) {
+        return (String.valueOf(creditCardCVV).length() == 3 || String.valueOf(creditCardCVV).length() == 4);
     }
 
     protected boolean isValidExpireDate(ZonedDateTime creditCardExpireDate) {
@@ -101,9 +101,7 @@ public class CreditCard {
 
         try {
             long cardNumber = Long.parseLong(number); // convert input to a long
-            int digitNum = String.valueOf(cardNumber).length(); // calculate the number of digits
-
-            if (digitNum == 16 || digitNum == 15) {
+            if (isValidCardNumber(cardNumber)) {
                 return String.valueOf(cardNumber); // valid card number length
             } else {
                 System.out.println("Unknown type of card. Please check your card number or contact the manager.");
@@ -117,13 +115,10 @@ public class CreditCard {
                         /* Warning---------------Attention------------------Warning */
     protected static int customerInputCVVCode(){
         System.out.println("Enter CVV code: ");
-        String numberCVV = scanner.nextLine().trim(); //remove spaces
+        int numberCVV = Integer.parseInt(scanner.nextLine()); //remove spaces
         try{
-            byte cvvNumber = Byte.parseByte(numberCVV); // convert input to a byte
-            int digitNum = String.valueOf(cvvNumber).length(); //calculate the number of digits
-
-            if (digitNum == 3 || digitNum == 4){                             /*"does not work with 4 symbols"*/
-                return cvvNumber; //valid number length
+            if (isValidCVV(numberCVV)){                             /*"does not work with 4 symbols"*/
+                return numberCVV; //valid number length
             } else {
                 System.out.println("Code is not correct, please check your card and try again!");
                 return customerInputCVVCode(); // recurse to get a valid number
