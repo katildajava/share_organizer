@@ -1,38 +1,62 @@
 [
   {
-    "name": "Linda",
-    "rate": 50.0,
-    "role": "stylist",
-    "languages": "Estonian"
+    "staffID": 1,
+    "staffName": "Linda",
+    "staffRate": 50.0,
+    "staffRoles": {
+      "staffRoleID": 1,
+      "staffRoleName": "Stylist"
+    },
+    "staffLanguages": "Estonian"
   },
   {
-    "name": "Mila",
-    "rate": 40.0,
-    "role": "colorist",
-    "languages": "Estonian, Russian, English"
+    "staffID": 2,
+    "staffName": "Mila",
+    "staffRate": 40.0,
+    "staffRoles": {
+      "staffRoleID": 2,
+      "staffRoleName": "Colorist"
+    },
+    "staffLanguages": "Estonian, Russian, English"
   },
   {
-    "name": "Toomas",
-    "rate": 30.0,
-    "role": "barber",
-    "languages": "Estonian, English"
+    "staffID": 3,
+    "staffName": "Toomas",
+    "staffRate": 30.0,
+    "staffRoles": {
+      "staffRoleID": 3,
+      "staffRoleName": "Barber"
+    },
+    "staffLanguages": "Estonian, English"
   },
   {
-    "name": "Antonina",
-    "rate": 30.0,
-    "role": "barber",
-    "languages": "Russian, English, Swedish, Estonian"
+    "staffID": 4,
+    "staffName": "Antonina",
+    "staffRate": 30.0,
+    "staffRoles": {
+      "staffRoleID": 3,
+      "staffRoleName": "Barber"
+    },
+    "staffLanguages": "Russian, English, Swedish, Estonian"
   },
   {
-    "name": "Tamara",
-    "rate": 20.0,
-    "role": "hairdresser",
-    "languages": "Russian, Estonian"
+    "staffID": 5,
+    "staffName": "Tamara",
+    "staffRate": 20.0,
+    "staffRoles": {
+      "staffRoleID": 4,
+      "staffRoleName": "Hairdresser"
+    },
+    "staffLanguages": "Russian, Estonian"
   },
   {
-    "name": "Mohamed",
-    "rate": 20.0,
-    "role": "hairdresser",
-    "languages": "Arabic, English, Russian"
+    "staffID": 6,
+    "staffName": "Mohamed",
+    "staffRate": 20.0,
+    "staffRoles": {
+      "staffRoleID": 4,
+      "staffRoleName": "Hairdresser"
+    },
+    "staffLanguages": "Arabic, English, Russian"
   }
 ]

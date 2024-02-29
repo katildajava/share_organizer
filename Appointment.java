@@ -1,9 +1,8 @@
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.ZoneId;
@@ -121,6 +120,8 @@ public class Appointment {
 
         String selectedServiceIndex = scanner.nextLine();
 
+        String[] chosenServiceSpecialistRoles = null;
+
         switch (Integer.parseInt(selectedServiceIndex)) {
             case 1:
                 System.out.println("You selected coloring services.");
@@ -134,7 +135,7 @@ public class Appointment {
                 System.out.println("Please choose the service you need:");
                 String coloringSelectedService = scanner.nextLine();
                 System.out.println("The price of the selected service is: " + coloringCategories.get(Integer.parseInt(coloringSelectedService)-1).getPrice());
-
+                chosenServiceSpecialistRoles = coloringCategories.get(Integer.parseInt(coloringSelectedService)-1).getStaffRole();
                 break;
             case 2:
                 System.out.println("You selected men's haircut services.");
@@ -148,7 +149,7 @@ public class Appointment {
                 System.out.println("Please choose the service you need:");
                 String forMenSelectedService = scanner.nextLine();
                 System.out.println("The price of the selected service is: " + maleCategories.get(Integer.parseInt(forMenSelectedService)-1).getPrice());
-
+                chosenServiceSpecialistRoles = maleCategories.get(Integer.parseInt(forMenSelectedService)-1).getStaffRole();
                 break;
             case 3:
                 System.out.println("You selected women's haircut services.");
@@ -162,7 +163,7 @@ public class Appointment {
                 System.out.println("Please choose the service you need:");
                 String forWomenSelectedService = scanner.nextLine();
                 System.out.println("The price of the selected service is: " + femaleCategories.get(Integer.parseInt(forWomenSelectedService)-1).getPrice());
-
+                chosenServiceSpecialistRoles = femaleCategories.get(Integer.parseInt(forWomenSelectedService)-1).getStaffRole();
                 break;
             case 4:
                 System.out.println("You selected services for children.");
@@ -176,7 +177,7 @@ public class Appointment {
                 System.out.println("Please choose the service you need:");
                 String forKidsSelectedService = scanner.nextLine();
                 System.out.println("The price of the selected service is: " + childServiceCategories.get(Integer.parseInt(forKidsSelectedService)-1).getPrice());
-
+                chosenServiceSpecialistRoles = childServiceCategories.get(Integer.parseInt(forKidsSelectedService)-1).getStaffRole();
                 break;
             default:
                 System.out.println("Invalid service category.");
@@ -186,8 +187,19 @@ public class Appointment {
         try {
             // Read the JSON file
             String content = new String(Files.readAllBytes(Paths.get("Staff.json")));
-            System.out.println("Content of the JSON file:");
-            System.out.println(content);
+            Gson gson = new Gson();
+
+
+            Type staffListType = new TypeToken<ArrayList<Staff>>(){}.getType();
+            ArrayList<Staff> staffList = gson.fromJson(content, staffListType);
+            assert chosenServiceSpecialistRoles != null;
+            for (String role: chosenServiceSpecialistRoles){
+                for (Staff staff: staffList){
+                    if(staff.getStaffRoles().getStaffRoleName().trim().equalsIgnoreCase(role.trim())){
+                        System.out.println(staff.getStaffName());
+                    }
+                }
+            }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         };
@@ -225,8 +237,8 @@ public class Appointment {
         ZonedDateTime zonedDateTime;
         while(true){
             try{
-                String[] customerInputArray = scanner.nextLine().replaceAll("[^1-9/: ]","").split("[: /]");
-
+                String[] customerInputArray = scanner.nextLine().replaceAll("[^0-9/: ]","").split("[: /]");
+                System.out.println(Arrays.toString(customerInputArray));
                 zonedDateTime = ZonedDateTime.of(2000+Integer.parseInt(customerInputArray[2]),
                         Integer.parseInt(customerInputArray[1]),
                         Integer.parseInt(customerInputArray[0]),

@@ -24,7 +24,9 @@ public enum ServiceCategory {
         public int getPrice() {
             return price;
         }
-
+        public String[] getStaffRole() {
+            return new String[] {"Colorist"};
+        }
     }
 
     enum MenHaircut {
@@ -35,6 +37,9 @@ public enum ServiceCategory {
         }
         public int getPrice() {
             return price;
+        }
+        public String[] getStaffRole() {
+            return new String[] {"Barber", "Stylist"};
         }
     }
 
@@ -47,6 +52,9 @@ public enum ServiceCategory {
         public int getPrice() {
             return price;
         }
+        public String[] getStaffRole() {
+            return new String[] {"Hairdresser", "Stylist"};
+        }
     }
     enum ForChildren {
         BOYS_HAIRCUT(25), GIRLS_HAIRCUT(30), GIRLS_ENDS_CUT(20);
@@ -56,6 +64,9 @@ public enum ServiceCategory {
         }
         public int getPrice() {
             return price;
+        }
+        public String[] getStaffRole() {
+            return new String[] {"Hairdresser"};
         }
     }
 /*    Service.ServiceCategory.Coloring coloring;
