@@ -19,16 +19,13 @@ public class SalonMain {
         switch (option) {
             case 1:
                 Customer.login(scanner);
-                Customer.customerMenu(scanner);
                 break;
             case 2:
                 Customer.createCustomer(scanner);
-                Customer.customerMenu(scanner);
                 break;
             case 3:
                 System.out.println("The settings are accessible only to the salon manager. If you are the manager, please Login:");
                 Manager.loginManager(scanner);
-                Manager.managerMenu(scanner);
                 break;
             default:
                 System.out.println("Invalid option");

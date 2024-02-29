@@ -1,8 +1,5 @@
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -72,7 +69,7 @@ public class Manager {
 
     private static void writeManagerToFile(ArrayList<JsonObject> managerJ) throws IOException {
         try (FileWriter writer = new FileWriter(MANAGER_FILE)) {
-            writer.write(new Gson().toJson(managerJ));
+            writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(managerJ));
         }
     }
 
@@ -92,6 +89,7 @@ public class Manager {
                         System.out.println("Logged in successfully!");
                     } else {
                         System.out.println("Incorrect password.");
+                        loginManager(scanner);
                     }
                     break;
                 }
@@ -103,6 +101,8 @@ public class Manager {
         } catch (IOException e) {
             System.out.println("Error reading manager file.");
         }
+
+        managerMenu(scanner);
     }
 
     public static void createManager(Scanner scanner) throws IOException {
@@ -114,7 +114,7 @@ public class Manager {
 
         System.out.println("Enter your name:");
         String name = scanner.nextLine();
-        scanner.nextLine(); // Consume the newline character
+
 
         Manager manager = new Manager(name, username, password); // Create a manager object
 
@@ -129,6 +129,8 @@ public class Manager {
 
         writeManagerToFile(managerJ);
         System.out.println("Nice to meet you " + manager.getManagerName() + ". Welcome to our team!");
+
+        managerMenu(scanner);
     }
 
     private static void chooseAnOption() {
@@ -153,8 +155,8 @@ public class Manager {
                 break;
 /*            case 4:
                 addService(scanner);
-                break;
-            case 5:
+                break;*/
+/*            case 5:
                 updatePrice(scanner);
                 break;
             case 6:
@@ -169,7 +171,7 @@ public class Manager {
         }
     }
 
-    private static ArrayList<JsonObject> readStaffFromFile() throws IOException {
+    protected static ArrayList<JsonObject> readStaffFromFile() throws IOException {
         ArrayList<JsonObject> staffArray = new ArrayList<>(); // create ArrayList to store staff data
         File file = new File(STAFF_FILE); // create file object for the staff file
         if (file.exists()) { // check if the file exists
@@ -185,7 +187,7 @@ public class Manager {
 
     private static void writeStaffToFile(ArrayList<JsonObject> staffArray) throws IOException {
         try (FileWriter writer = new FileWriter(STAFF_FILE)) { // Create a FileWriter for the staff file
-            writer.write(new Gson().toJson(staffArray)); // Write the ArrayList of staff data to the file as JSON
+            writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(staffArray)); // Write the ArrayList of staff data to the file as JSON
         }
     }
 
@@ -249,28 +251,52 @@ public class Manager {
     }
        /* public static void addService(Scanner scanner) throws IOException{
 
+        String fileName = "ServiceCategory.java";
+        ArrayList<String> lines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Enter Service Category:");
-        String inputCategory = in.readLine();
+        String inputCategory = scanner.nextLine();
 
         System.out.println("Enter Service Name:");
-        String inputServiceName = in.readLine();
+        String inputServiceName = scanner.nextLine();
 
         System.out.println("Enter price:");
-        String inputPrice = Integer.parseInt(in.readLine());
+        int inputPrice = Integer.parseInt(scanner.nextLine());
+        // Print the contents of the ArrayList
+        for (int i = 1; i<lines.size(); i++){
+            if(lines.get(i-1).contains("enum " + inputCategory)){
+                lines.set(i, lines.get(i)+  inputServiceName(inputPrice));
+            }
 
-        services.setCategory(inputCategory); //set the category for the new service
-        services.add(inputServiceName); //add the new service to the list of services
-        services.add(inputPrice);
+        }
+        System.out.println(lines);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (String line : lines) {
+                writer.write(line);
 
-    }
-    public static void updatePrice(Scanner scanner) {
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+/*    public static void updatePrice(Scanner scanner) {
     }
     public void deleteService(Scanner scanner) {  // method to delete a service
         if (doesServiceExist(service.getServiceName())) {
             services.remove(service.getServiceName());    // remove the specified service from the list
         }
-    }
-*/
+    }*/
+
 /*    public static boolean doesServiceExist(String serviceName) { //check if a service exists by name
         for (Service service : services) {
             if (service.getServiceName().equals(serviceName)) {
@@ -281,7 +307,7 @@ public class Manager {
     }*/
 
 
-    public List<Service> findServiceCategory(ServiceCategory category) { //find services by category
+/*    public List<Service> findServiceCategory(ServiceCategory category) { //find services by category
         List<Service> matchingServices = new ArrayList<>();
         for (Service service : services) {
             if (service.getServiceCategory() == category) {
@@ -302,6 +328,6 @@ public class Manager {
 
     public void updatePrice(Service service, int newServicePrice) {
         service.setServicePrice(newServicePrice); // set new price for the needed service
-    }
+    }*/
 
 }

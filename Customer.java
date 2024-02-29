@@ -98,6 +98,7 @@ public class Customer {
                         System.out.println("Logged in successfully!");
                     } else {
                         System.out.println("Incorrect password.");
+                        login(scanner);
                     }
                     break;
                 }
@@ -126,6 +127,7 @@ public class Customer {
         } catch (IOException e) {
             System.out.println("Error reading customers file.");
         }
+        customerMenu(scanner);
     }
 
 
@@ -165,7 +167,7 @@ public class Customer {
         writeCustomerToFile(customersArray);
         System.out.println("New customer " + customer.getCustomerName() + ". We glad to see in our app.");
 
-
+        customerMenu(scanner);
     }
     private static void chooseAnOption(){
         System.out.println("Choose an option:");

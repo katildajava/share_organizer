@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Linda",
+    "rate": 50.0,
+    "role": "stylist",
+    "languages": "Estonian"
+  },
+  {
+    "name": "Mila",
+    "rate": 40.0,
+    "role": "colorist",
+    "languages": "Estonian, Russian, English"
+  },
+  {
+    "name": "Toomas",
+    "rate": 30.0,
+    "role": "barber",
+    "languages": "Estonian, English"
+  },
+  {
+    "name": "Antonina",
+    "rate": 30.0,
+    "role": "barber",
+    "languages": "Russian, English, Swedish, Estonian"
+  },
+  {
+    "name": "Tamara",
+    "rate": 20.0,
+    "role": "hairdresser",
+    "languages": "Russian, Estonian"
+  },
+  {
+    "name": "Mohamed",
+    "rate": 20.0,
+    "role": "hairdresser",
+    "languages": "Arabic, English, Russian"
+  }
+]
